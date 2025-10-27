@@ -345,3 +345,10 @@ mark(X) :-
 mark(X) :- 
    \+var(X),
    write(X).
+
+
+# Right the below code in SWI-Prolog.
+
+
+C:\Users\ABDUL REHMAN\OneDrive\Documents\Prolog\tictactoe.pl
+?- [tictactoe].

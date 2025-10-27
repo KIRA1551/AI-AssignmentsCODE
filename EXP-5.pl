@@ -219,3 +219,10 @@ printsolution([State, null, PC, H, TC],_):-
 printsolution([State, Parent, PC, H, TC], Closed):-
        member([Parent, GrandParent, PC1, H1, TC1], Closed),
        printsolution([Parent, GrandParent, PC1, H1, TC1], Closed),    write(Parent),    write(State), write(' !!PC: '), write(PC), write(' H:'), write(H), write(' TC: '), write(TC), nl
+
+
+# Right the below code in SWI-Prolog.
+
+cd('C:/Users/ABDUL REHMAN/OneDrive/Documents/Prolog').
+?- [a_star_puzzle].
+?- go([1,2,3,4,0,6,7,5,8], [1,2,3,4,5,6,7,8,0]).

@@ -66,3 +66,13 @@ dfs_start(Start, End) :-
 
 
 ]
+
+# Right the below code in SWI-Prolog.
+
+cd('C:/Users/ABDUL REHMAN/OneDrive/Documents/Prolog').
+
+[graph_search].
+
+bfs(a, f).
+
+dfs_start(a, f).

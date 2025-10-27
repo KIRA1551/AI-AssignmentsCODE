@@ -1,40 +1,42 @@
-% Define the initial state and its evaluation
-initial_state(State) :-
-    % Define your initial state here
-    State = [1, 2, 3, 4].
+% --- Define the initial state ---
+initial_state([1, 2, 3, 4]).
 
-% Define a predicate to evaluate the current state
+% --- Define an evaluation function ---
+% Example: sum of all elements
 evaluate(State, Value) :-
-    % Define your evaluation function here
     sum_list(State, Value).
 
-% Define a predicate to generate neighboring states
+% --- Generate a neighboring state ---
 generate_neighbor(State, Neighbor) :-
-    select(X, State, Rest), % Select an element X from the State
-    member(Y, [1, 2, 3, 4]), % Generate a new element Y
-    X \= Y, % Ensure the new element is different from X
-    permutation([Y|Rest], Neighbor). % Generate Neighbor with Y in place of X
+    select(X, State, Rest),          % Pick an element X and get remaining list
+    member(Y, [1, 2, 3, 4]),         % Choose a possible replacement Y
+    X \= Y,                          % Make sure it’s different
+    select(Y, Neighbor, Rest).       % Replace X with Y in the new list
 
-% Hill climbing algorithm
-hill_climb(State, BestState) :-
-    initial_state(CurrentState),
-    hill_climb(CurrentState, 0, BestState).
+% --- Hill climbing main predicate ---
+hill_climb(BestState) :-
+    initial_state(Init),
+    evaluate(Init, Value),
+    write('Starting from: '), write(Init), write(' with value '), write(Value), nl,
+    hill_climb_step(Init, Value, BestState).
 
-% Recursive hill climbing algorithm with a stopping criterion
-hill_climb(State, _, State) :-
-    evaluate(State, Value),
-    \+ generate_neighbor(State, _), % No better neighbors found
-    write('Optimal solution found: '), write(State), write(' with value '), write(Value), nl.
-
-hill_climb(State, PrevValue, BestState) :-
-    evaluate(State, Value),
-    write('Current state: '), write(State), write(' with value '), write(Value), nl,
-    generate_neighbor(State, Neighbor),
-    evaluate(Neighbor, NeighborValue),
-    (NeighborValue > Value ->
-        write('Found better neighbor: '), write(Neighbor), write(' with value '), write(NeighborValue), nl,
-        hill_climb(Neighbor, Value, BestState)
-    ;
-        write('No better neighbors, stopping.'), nl,
+% --- Recursive step ---
+hill_climb_step(State, Value, BestState) :-
+    findall((N,V), (generate_neighbor(State, N), evaluate(N, V)), Neighbors),
+    (   Neighbors = [] ->
+        write('No neighbors left. Optimal state: '), write(State), write(' with value '), write(Value), nl,
         BestState = State
+    ;
+        max_member((BestNeighbor, BestValue), Neighbors),
+        (   BestValue > Value ->
+            write('Moving to better state: '), write(BestNeighbor), write(' with value '), write(BestValue), nl,
+            hill_climb_step(BestNeighbor, BestValue, BestState)
+        ;
+            write('No better neighbor found. Stopping at: '), write(State), write(' with value '), write(Value), nl,
+            BestState = State
+        )
     ).
+
+# Right the below code in SWI-Prolog.
+?- [ 'C:/Users/ABDUL REHMAN/OneDrive/Documents/Prolog/hill_climb.pl' ].
+?- hill_climb(Result).
