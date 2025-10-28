@@ -40,3 +40,7 @@ has_fur(X) :-
 
 % Example Query for Forward Chaining (to find all things that can fly):
 % ?- can_fly(X).
+
+
+ ?- consult('path/to/family.pl').
+ ?- ancestor(john, pat).
