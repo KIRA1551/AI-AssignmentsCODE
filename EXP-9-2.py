@@ -2,7 +2,8 @@
 # 🌦️ EXP-9: Bayesian Belief Network on Weather Data (VS Code Version)
 # ---------------------------------------------------------
 # Required packages:
-# pip install pandas networkx matplotlib pybbn
+! pip install pandas networkx matplotlib pybbn
+!pip install pybbn
 import os
 import urllib.request
 import pandas as pd
